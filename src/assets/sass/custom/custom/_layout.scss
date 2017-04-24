@@ -1,0 +1,70 @@
+//页面的整个布局
+// 自定义的类加上前缀 l-， 避免和其他引入的库的css参数冲突
+
+html, body{
+  height: 100%;
+}
+
+body {
+  word-break: break-all;
+  word-wrap: break-word;
+  color: #767676;
+  font-family: "Microsoft YaHei", "Lato", "Helvetica Neue", Arial, sans-serif;
+}
+
+.page {
+  padding: 15px;
+}
+
+.b-login {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    overflow: auto;
+    padding: 5rem 3rem 0;
+    // background-image: linear-gradient(to bottom,#71BA51 0,#00B16A 100%);
+    .login-title {
+      font-size: 3rem;
+      color: #000;
+      padding: 1rem;
+    }
+    .login-form {
+      font-size: 2rem;
+      .login-oneline {
+        margin-bottom: 1rem;
+        .b-label {
+          display: inline-block;
+          padding-right: 8px;
+          margin: 0;
+          width: 20%;
+          text-align: right;
+        }
+        .b-form {
+          display: inline-block;
+          margin: 0;
+          width: 70%;
+          text-align: left;
+        }
+      }
+      .login-button{
+        width: 70%;
+        margin-left: 20%;
+        font-size: 20px;
+      }
+    }
+}
+
+
+.b-container {
+  height: 100%;
+  .b-nav {
+    height: 50px;
+    background-color: #616161;
+  }
+  .b-content {
+    // min-height: 100%;
+    // margin-top: -4rem;
+    // padding-top: 4rem;
+    // background-image: linear-gradient(to bottom,#71BA51 0,#00B16A 100%);
+  }
+}

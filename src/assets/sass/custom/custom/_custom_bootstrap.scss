@@ -1,0 +1,20 @@
+//对bootstrap的部分样式进行重构
+
+.panel {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  .panel-heading {
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+  }
+}
+
+//删除btn样式的 外边框
+.btn {
+  &.focus,
+  &:focus,
+  &.active,
+  &:active{
+    outline: none;
+  }
+}

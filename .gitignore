@@ -1,0 +1,10 @@
+.DS_Store
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+static/
+src/assets/fonts
+src/assets/image
+src/bower_components
