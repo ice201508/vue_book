@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-title">
-                    <span>用户登录</span>
+                    <span>登录</span>
                 </div>
                 <div class="login-form login-title">
                     <div class="clearfix login-oneline">
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+    import * as config from '../config'
     export default {
         name: 'book',
         data(){
@@ -44,7 +45,7 @@
             login(){
                 var _this=this;
                 console.log(this.user);
-                _this.$http.post('http://127.0.0.1:3005/login' , {
+                _this.$http.post(config.SERVER_NAME  + '/login' , {
                     email: _this.user.email,
                     password: _this.user.password,
                 }).then(function(data){
