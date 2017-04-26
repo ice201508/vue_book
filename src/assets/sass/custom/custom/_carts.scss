@@ -2,4 +2,48 @@
     text-align: center;
     width: 70%;
     margin: 0 auto;
+    margin-top: 3%;
+    .ul-title {
+        list-style-type: none;
+        padding-left: 0;
+        padding-bottom: 10px;
+        font-size: 15px;
+        border-bottom: 1px solid #ccc;
+    }
+    .ul-foot {
+        list-style-type: none;
+        padding-left: 0;
+        padding-top: 10px;
+        font-size: 15px;
+        border-top: 1px solid #ccc;
+        .price {
+            font-size: 18px;
+            color: #ff2832;
+        }
+    }
+    .table {
+        div {
+            margin: 0 0 10px 0;
+        }
+        .img-in-table {
+            max-height: 100px;
+            max-width: 33.333%
+        }
+        .count-span-add {
+            display: inline-block;
+            height: 14px;
+            width: 14px;
+            border-radius: 14px;
+            cursor: pointer;
+            color: #fff;
+            background-color: $color-primary;
+        }
+        .count-span-num {
+            padding: 0 5px;
+        }
+    }
+    .custom-padding{
+        border-collapse:separate;
+        border-spacing:10px;
+    }
 }

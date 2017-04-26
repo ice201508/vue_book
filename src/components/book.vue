@@ -56,20 +56,15 @@
                 this.$store.commit('addToCarts', book);
             },
             buy_book(){
-                console.log(11);
+                this.$router.push('settle');
             }
         },
         mounted(){
             var _this = this;
-            _this.$store.dispatch('getBooksActions');
-            // _this.$http.get(config.SERVER_NAME + '/book/allbooks')
-            //     .then(function(data){
-            //         console.log('data', data);
-            //         _this.books = data.books
-            //     })
-            //     .catch(function(e){
-            //         console.log('e3333: ',e);
-            //     })
+            _this.$store.dispatch('getBooksActions')
+                .then(function(data){
+                    console.log('promise------------- ', data);
+                })
         }
     }
 </script>

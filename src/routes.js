@@ -20,6 +20,11 @@ var routes = [
                 component: resolve => require(['./components/carts.vue'], resolve),
             },
             {
+                name: 'settle_a',
+                path: 'settle',
+                component: resolve => require(['./components/settle.vue'], resolve),
+            },,
+            {
                 path: 'order',
                 component: resolve => require(['./components/order.vue'], resolve),
             },
