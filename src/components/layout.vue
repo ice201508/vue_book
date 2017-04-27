@@ -26,10 +26,12 @@
                     </router-link>
                 </li>
                 <li>
-                    <router-link to="/login" >
-                        <i class="fa fa-sign-in"></i>
-                        <span>登录</span>
-                    </router-link>
+                    <a @click="go_login">
+                        <i class="fa fa-sign-in" v-if="!loginInfo.isLogin"></i>
+                        <span v-if="!loginInfo.isLogin">登录</span>
+                        <span v-if="loginInfo.isLogin">退出</span>
+                        <i class="fa fa-sign-out"  v-if="loginInfo.isLogin"></i>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -45,13 +47,42 @@
         computed: {
             carts_count(){
                 return this.$store.getters.getCarts.length
+            },
+            loginInfo(){
+                return this.$store.getters.getLoginStatus
             }
         },
-        created(){
-            console.log('123');
+        methods: {
+            go_login(){
+                var _this=this;
+                if(_this.$cookie.get('isLogin')){
+                    _this.$confirm("是否退出当前页面？", "提示", {
+                        comfirmButtonText: '退出',
+                        cancelButtonText: '取消',
+                        type: 'warning',
+                    }).then(() => {
+                        _this.$cookie.delete('isLogin')
+                        _this.$cookie.delete('user_id')
+                        _this.$store.commit('getLoginInfoMutation', {
+                            isLogin: false,
+                            user_id: null,
+                        })
+                        _this.$router.push('/login');
+                    }).catch(() => {
+                        return;
+                    })
+                } else {
+                    _this.$router.push('/login');
+                }
+            }
         },
-        mounted(){
-
-        }
+        created(){   //这里不能用mounted，要在$el元素绑定之前设置这个值
+            if(this.$cookie.get('isLogin')) {
+                this.$store.commit('getLoginInfoMutation', {
+                    isLogin: this.$cookie.get('isLogin'),
+                    user_id: this.$cookie.get('user_id'),
+                })
+            }
+        },
     }
 </script>

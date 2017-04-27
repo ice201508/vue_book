@@ -8,15 +8,15 @@
                 <div class="login-form login-title">
                     <div class="clearfix login-oneline">
                         <div class="pull-left b-label"><label for="emailInput">邮箱</label></div>
-                        <div class="form-group pull-left b-form">
-                            <input type="email" class="form-control" id="emailInput" v-model="user.email">
+                        <div class="form-group pull-left b-form" autocomplete="off">
+                            <input type="email" class="form-control cus-imput" id="emailInput" v-model="user.email"  autocomplete="off">
                         </div>
                     </div>
 
                     <div class="clearfix login-oneline">
                         <div class="pull-left b-label"><label for="passwordInput">密码</label></div>
                         <div class="form-group pull-left b-form">
-                            <input type="password" class="form-control" id="passwordInput" v-model="user.password">
+                            <input type="password" class="form-control cus-imput" id="passwordInput" v-model="user.password"  autocomplete="off">
                         </div>
                     </div>
 
@@ -44,23 +44,30 @@
         methods: {
             login(){
                 var _this=this;
-                console.log(this.user);
-                _this.$http.post(config.SERVER_NAME  + '/login' , {
+                _this.$store.dispatch('loginAction', {
                     email: _this.user.email,
                     password: _this.user.password,
                 }).then(function(data){
-                    if(data.data.code>0){
+                        console.log('----------data ', data);
+                        _this.$cookie.set('isLogin', true, {expires: '1h'})  //hms时分秒  D天 M月
+                        _this.$cookie.set('user_id', data.uid, {expires: '1D'})
+                        _this.$store.commit('getLoginInfoMutation', {
+                            isLogin: true,
+                            user_id: data.uid,
+                        });
                         _this.$router.push('/book')
-                    }
-                    console.log('data: ', data.data);
-                }).catch(function(e){
-                    console.log('e: ',e)
-                })
+                    }).catch(function(e){
+                        _this.$notify({
+                            title: '失败',
+                            message: e.message || '请求失败',
+                            type: 'error',
+                            duration: 3000,
+                        })
+                    })
             },
         },
         created(){
-            console.log('_this.route: ', this.$route);
-            console.log('_this.router: ', this.$router);
+            console.log('localStorage: ', localStorage);
         }
     }
 </script>

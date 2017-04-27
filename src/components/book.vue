@@ -7,7 +7,9 @@
                             <img :src="book.img_url">
                             <div class="book-info">
                                 <p class="b-title">{{book.bname}}</p>
-                                <p class="b-rate">{{book.rate}}</p>
+                                <p class="b-rate">
+                                    <el-rate v-model="book.rate"  :max="max_num"></el-rate>
+                                </p>
                                 <p>
                                     <span>{{book.author}}</span>
                                     <span>{{book.create_time}}</span>
@@ -39,7 +41,7 @@
         name: 'book',
         data(){
             return {
-                // books: []
+                'max_num': 10,
             }
         },
         computed: {
@@ -55,16 +57,16 @@
             add_to_cart(book){
                 this.$store.commit('addToCarts', book);
             },
-            buy_book(){
-                this.$router.push('settle');
+            buy_book(book){
+                this.$store.commit('addToCarts', book);
+                this.$router.push('/carts');
+                //this.$router.push('settle');
+                //收藏夹
             }
         },
         mounted(){
             var _this = this;
             _this.$store.dispatch('getBooksActions')
-                .then(function(data){
-                    console.log('promise------------- ', data);
-                })
         }
     }
 </script>

@@ -6,45 +6,31 @@ const state = {
     book: {},
     books: [],
     carts: [],
-    total: 0,
+    orders: [],
+    login_info: {},
 }
 
 const getters = {
     getBook: state=> state.book,
     getBooks: state => state.books,
     getCarts: state=> state.carts,
-    getTotal: state=> {
-        let total = 0;
-        for (let item of state.carts){
-            total += parseFloat(item.count) * parseFloat(item.price)
-        }
-        return parseFloat(total).toFixed(2);
-    }
+    getOrders: state=> state.orders,
+    getLoginStatus: state => state.login_info,
 }
 
 const mutations = {
+    getLoginInfoMutation(state, data){
+        state.login_info.isLogin = data.isLogin;
+        state.login_info.user_id = data.user_id;
+    },
     getOneBookDetailMutation(state, data){
-        console.log('book-------  ', data);
         if(data.code > 0){
             state.book = data.book[0]
         } else {
             state.book = {}
         }
-
-        /* mutations里面不能放异步操作
-        return new Promise(function(resolve, reject){
-            if(data.code > 0){
-                state.books = data.book[0]
-                resolve(state.books)
-            } else {
-                state.books = {}
-                reject(state.books)
-            }
-        })
-        */
     },
     getBooksMutations(state, data){
-        console.log('vuex-------  ', data);
         if(data.code > 0){
             state.books = data.books
         } else {
@@ -71,8 +57,9 @@ const mutations = {
         } else {
             state.carts.push(data)
         }
-
-        console.log('vuex-------state ', state.carts);
+    },
+    clearCarts(state){
+        state.carts = [];
     },
     addCartCount(state, data){
         let curr_index = null;
@@ -105,22 +92,37 @@ const mutations = {
         }
         state.carts.splice(curr_index, 1);
     },
+    getOrdersMutation(state, data){
+        if(data.code > 0){
+            state.orders = data.orders;
+        } else {
+            state.orders = [];
+        }
+    }
 }
 
 const actions = {
-    getBooksActions({commit}){
+    loginAction({commit}, data){
+        console.log('loginAction:  ', data);
         return new Promise(function(resolve, reject){
-            axios.get(config.SERVER_NAME + '/book/allbooks')
+            axios.post(config.SERVER_NAME + '/login', data)
                 .then(function(data){
-                    resolve(commit('getBooksMutations', data))
-                })
-                .catch(function(e){
-                    reject(commit('getBooksMutations', e));
+                    resolve(data)
+                }).catch(function(e){
+                    reject(e)
                 })
         })
     },
+    getBooksActions({commit}){
+        axios.get(config.SERVER_NAME + '/book/allbooks')
+            .then(function(data){
+                commit('getBooksMutations', data)
+            })
+            .catch(function(e){
+                commit('getBooksMutations', e);
+            })
+    },
     getOneBookDetail({commit}, id){
-        console.log("config.SERVER_NAME + '/book/onebook/' + id: ", config.SERVER_NAME + '/book/onebook/' + id);
         axios.get(config.SERVER_NAME + '/book/onebook/' + id)
             .then(function(data){
                 commit('getOneBookDetailMutation', data)
@@ -128,6 +130,36 @@ const actions = {
             .catch(function(e){
                 commit('getBooksMutations', e)
             })
+    },
+    goSettle(context){
+        let total = 0;
+        for (let item of context.state.carts){
+            total += parseFloat(item.count) * parseFloat(item.price)
+        }
+        total = parseFloat(total).toFixed(2)
+        return new Promise(function(resolve, reject){
+            axios.post(config.SERVER_NAME + '/order/settle', {
+                total: total,
+                carts: context.state.carts,
+                create_time: 1493265477873,
+                user_id: context.state.login_info.user_id
+            }).then(function(data){
+                resolve(data)
+            }).catch(function(e){
+                reject(e)
+            })
+        })
+    },
+    getOrdersAction({commit, state}){
+        axios.get(config.SERVER_NAME + '/order/all_orders', {
+            params:{
+                user_id: state.login_info.user_id
+            }
+        }).then(function(data){
+            commit('getOrdersMutation', data)
+        }).catch(function(e){
+            commit('getOrdersMutation', data)
+        })
     }
 }
 

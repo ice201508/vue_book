@@ -3,13 +3,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import axios from 'axios'
+import VueCookie from 'vue-cookie';
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
 
 import App from './App'
 import routes from './routes.js';
 import store from './vuex'
 
-Vue.config.productionTip = false
 Vue.use(VueRouter);
+Vue.use(ElementUI)
+Vue.use(VueCookie)
+Vue.config.productionTip = false
 Vue.prototype.$http = axios;
 
 const router = new VueRouter({
@@ -34,7 +39,7 @@ axios.interceptors.response.use(function(response){
         return Promise.reject(response.data)
     }
 }, function(e){
-    console.log('eeeee: ',e);
+    console.log('拦截器response返回失败: ',e);
     return Promise.reject(e)
 })
 
@@ -44,6 +49,21 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from, next) => {
 
+})
+
+Vue.filter('parseTwoFloatNumber', function(value){
+    if(!value) return '';
+    var pattern_int = /^\d*$/;
+    value = parseFloat(value);
+    if(value && parseFloat(value)) {
+        if(pattern_int.test(value)){
+            return parseInt(value);
+        } else{
+            return parseFloat(value)
+        }
+    } else {
+        return '数值错误';
+    }
 })
 
 new Vue({

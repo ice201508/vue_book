@@ -31,12 +31,35 @@
         },
         computed: {
             total(){
-                return this.$store.getters.getTotal
+                let total = 0;
+                for (let item of this.$store.state.book.carts){
+                    total += parseFloat(item.count) * parseFloat(item.price)
+                }
+                return parseFloat(total).toFixed(2)
             }
         },
         methods: {
             pay_success(){
-                this.$router.push('order');
+                var _this = this;
+                _this.$store.dispatch('goSettle')
+                    .then(function(data){
+                        _this.$notify({
+                            title: '下单成功',
+                            message: '生成订单成功',
+                            type: 'success',
+                            duration: 3000,
+                        })
+                        _this.$store.commit('clearCarts');
+                        this.$router.push('/order');
+                    })
+                    .catch(function(e){
+                        _this.$notify({
+                            title: '失败',
+                            message: e.message || '请求失败',
+                            type: 'error',
+                            duration: 3000,
+                        })
+                    })
             },
         },
         components: {

@@ -13,15 +13,18 @@
                     <td class="col-md-4">
                         <img :src="item.img_url" class="img-in-table">
                     </td>
-                    <td class="col-md-2">{{item.price}}</td>
+                    <td class="col-md-2">{{item.price | parseTwoFloatNumber}}</td>
                     <td class="col-md-2">
                         <span class="fa fa-minus count-span-add" @click="cart_minus(item)"></span>
                         <span class="count-span-num">{{item.count}}</span>
                         <span class="fa fa-plus count-span-add" @click="cart_add(item)"></span>
                     </td>
-                    <td class="col-md-2">{{item.price * item.count}}</td>
+                    <td class="col-md-2">{{item.price * item.count | parseTwoFloatNumber}}</td>
                     <td class="col-md-2">
-                        <button class="btn btn-danger" @click="delete_item(item)">删除</button>
+                        <button class="btn btn-warning" @click="delete_item(item)">
+                            <span>删除</span>
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </button>
                     </td>
                 </tr>
             </table>
@@ -34,7 +37,10 @@
                     <span class="price"> ￥{{total}}</span>
                 </li>
                 <li class="col-md-2 col-md-offset-10">
-                    <button class="btn btn-success btn-lg" @click="submit">结算</button>
+                    <el-button type="danger" @click="submit">
+                        <span class="padding-icon-right">结算</span>
+                        <i class="fa fa-credit-card-alt"></i>
+                    </el-button>
                 </li>
             </ul>
         </div>
@@ -67,7 +73,15 @@
                 this.$store.commit('removeOneCart', cart)
             },
             submit(){
-                this.$router.push('settle');
+                this.$confirm("请先登录，是否跳转到登录界面？", "提示", {
+                    comfirmButtonText: '登录',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                }).then(() => {
+                    this.$router.push('/login');
+                }).catch(() => {
+                    return;
+                })
             }
         },
         mounted(){

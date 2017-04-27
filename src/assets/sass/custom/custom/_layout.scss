@@ -28,6 +28,11 @@ body {
       color: #000;
       padding: 1rem;
     }
+    // textarea:-webkit-autofill, select:-webkit-autofill 
+    .cus-imput:-webkit-autofill{
+      -webkit-box-shadow: 0 0 0px 1000px white inset; 
+      border: 1px solid #CCC!important; 
+    }
     .login-form {
       font-size: 2rem;
       .login-oneline {
