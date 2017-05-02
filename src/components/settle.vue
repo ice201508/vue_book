@@ -50,7 +50,7 @@
                             duration: 3000,
                         })
                         _this.$store.commit('clearCarts');
-                        this.$router.push('/order');
+                        _this.$router.push('/order');
                     })
                     .catch(function(e){
                         _this.$notify({

@@ -73,15 +73,20 @@
                 this.$store.commit('removeOneCart', cart)
             },
             submit(){
-                this.$confirm("请先登录，是否跳转到登录界面？", "提示", {
-                    comfirmButtonText: '登录',
-                    cancelButtonText: '取消',
-                    type: 'warning',
-                }).then(() => {
-                    this.$router.push('/login');
-                }).catch(() => {
-                    return;
-                })
+                var _this = this;
+                if(_this.$cookie.get('isLogin')) {
+                    _this.$router.push('/settle');
+                } else {
+                    _this.$confirm("请先登录，是否跳转到登录界面？", "提示", {
+                        comfirmButtonText: '登录',
+                        cancelButtonText: '取消',
+                        type: 'warning',
+                    }).then(() => {
+                        _this.$router.push('/login');
+                    }).catch(() => {
+                        return;
+                    })
+                }
             }
         },
         mounted(){
