@@ -48,9 +48,9 @@
                     email: _this.user.email,
                     password: _this.user.password,
                 }).then(function(data){
-                        console.log('----------data ', data);
-                        _this.$cookie.set('isLogin', true, {expires: '1h'})  //hms时分秒  D天 M月
-                        _this.$cookie.set('user_id', data.uid, {expires: '1D'})
+                        // _this.$cookie.set('isLogin', true, {expires: '10m', domain: 'www.leijiuling.com'})  设置域名后cookies获取不到
+                        _this.$cookie.set('isLogin', true, {expires: '10m'})  //hms时分秒  D天 M月
+                        _this.$cookie.set('user_id', data.uid, {expires: '10m'})
                         _this.$store.commit('getLoginInfoMutation', {
                             isLogin: true,
                             user_id: data.uid,
