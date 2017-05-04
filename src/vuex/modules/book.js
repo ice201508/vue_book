@@ -31,6 +31,7 @@ const mutations = {
         }
     },
     getBooksMutations(state, data){
+        console.log(data);
         if(data.code > 0){
             state.books = data.books
         } else {
@@ -114,11 +115,26 @@ const actions = {
         })
     },
     getBooksActions({commit}){
+        // $.ajax({
+        //     method: 'GET',
+        //     dataType: 'text',
+        //     url: config.SERVER_NAME + '/book/allbooks',
+        //     success: function(data){
+        //         debugger;
+        //         commit('getOneBookDetailMutation', data)
+        //     },
+        //     error: function(e){
+        //         debugger;
+        //         commit('getBooksMutations', e)
+        //     }
+        // })
         axios.get(config.SERVER_NAME + '/book/allbooks')
             .then(function(data){
+                debugger
                 commit('getBooksMutations', data)
             })
             .catch(function(e){
+                debugger
                 commit('getBooksMutations', e);
             })
     },
