@@ -1,22 +1,37 @@
 <template>
     <div class="book-order">
         <div class="row col-md-12">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(order, index) in orders">
-                        <td>{{order.order_id}}</td>
-                        <td>{{order.pay_money}}</td>
-                        <td>{{order.create_time}}</td>
-                    </tr>
-                </tbody>
-            </table>
+              <el-table
+                    :data="orders"
+                    style="width: 100%">
+                    <el-table-column type="expand">
+                      <template scope="props">
+                        <el-form label-position="left" inline class="demo-table-expand">
+                          <el-form-item label="订单ID">
+                            <span>{{ props.row.order_id }}</span>
+                          </el-form-item>
+                          <el-form-item label="支付金额">
+                            <span>{{ props.row.pay_money}}</span>
+                          </el-form-item>
+                          <el-form-item label="下单时间">
+                            <span>{{ props.row.create_time | timePraseDate }}</span>
+                          </el-form-item>
+                        </el-form>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      label="订单ID"
+                      prop="order_id">
+                    </el-table-column>
+                    <el-table-column
+                      label="支付金额"
+                      prop="pay_money">
+                    </el-table-column>
+                    <el-table-column
+                      label="下单时间"
+                      prop="create_time">
+                    </el-table-column>
+                  </el-table>
         </div>
     </div>
 </template>
@@ -30,7 +45,28 @@
             }
         },
         mounted(){
-            this.$store.dispatch('getOrdersAction')
+            var _this = this;
+            if(localStorage.isLogin) {
+                _this.$store.dispatch('getOrdersAction')
+                    .then(function(data){
+                        _this.$store.commit('getOrdersMutation', data)
+                    })
+                    .catch(function(e){
+                        _this.$notify({
+                            title: '失败',
+                            message: e.message || '请求失败',
+                            type: 'error',
+                            duration: 3000,
+                        })
+                    })
+            } else {
+                _this.$notify({
+                    title: '失败',
+                    message: '请先登录',
+                    type: 'error',
+                    duration: 3000,
+                })
+            }
         }
     }
 </script>

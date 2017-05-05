@@ -55,14 +55,14 @@
         methods: {
             go_login(){
                 var _this=this;
-                if(_this.$cookie.get('isLogin')){
+                if(localStorage.isLogin){
                     _this.$confirm("是否退出当前页面？", "提示", {
                         comfirmButtonText: '退出',
                         cancelButtonText: '取消',
                         type: 'warning',
                     }).then(() => {
-                        _this.$cookie.delete('isLogin')
-                        _this.$cookie.delete('user_id')
+                        localStorage.removeItem('isLogin');
+                        localStorage.removeItem('user_id');
                         _this.$store.commit('getLoginInfoMutation', {
                             isLogin: false,
                             user_id: null,
@@ -77,10 +77,10 @@
             }
         },
         created(){   //这里不能用mounted，要在$el元素绑定之前设置这个值
-            if(this.$cookie.get('isLogin')) {
+            if(localStorage.isLogin) {
                 this.$store.commit('getLoginInfoMutation', {
-                    isLogin: this.$cookie.get('isLogin'),
-                    user_id: this.$cookie.get('user_id'),
+                    isLogin: localStorage.isLogin,
+                    user_id: localStorage.user_id,
                 })
             }
         },

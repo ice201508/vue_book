@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "element-ui": "^1.2.9",
+    "moment": "^2.18.1",
     "v-qrcode": "^1.0.3",
     "vue": "^2.2.6",
     "vue-cookie": "^1.1.4",

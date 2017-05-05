@@ -16,10 +16,18 @@ npm install sass-loader node-sass --save-dev
 [moment时间库](http://momentjs.com/docs)
 
 
-localStorage sessionStorage  html5原生支持的对象
+localStorage sessionStorage  html5原生支持的对象   代替了原来cookie一些不足
 实例里面就用  this.$cookie.set(..)  vuex文件里面就用Vue.cookie.set(...)
 
+localStorage.setItem('key_a', 1)   ====  localStorage.key_a = 1
+localStorage.getItem('key_a')       ====  localStorage.key_a
+localStorage.removeItem('key_a')
+localStorage.clear()
 
+存放对象
+sessionStorage.setItem('page', JSON.stringify(obj));
+取对象
+JSON.parse(localStorage.getItem('key_a'))
 
 ### 常见错误
 数据库的错误  order关键字的错误(将order作为insert的表名，发生冲突)

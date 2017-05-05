@@ -130,11 +130,9 @@ const actions = {
         // })
         axios.get(config.SERVER_NAME + '/book/allbooks')
             .then(function(data){
-                debugger
                 commit('getBooksMutations', data)
             })
             .catch(function(e){
-                debugger
                 commit('getBooksMutations', e);
             })
     },
@@ -167,15 +165,30 @@ const actions = {
         })
     },
     getOrdersAction({commit, state}){
-        axios.get(config.SERVER_NAME + '/order/all_orders', {
-            params:{
-                user_id: state.login_info.user_id
-            }
-        }).then(function(data){
-            commit('getOrdersMutation', data)
-        }).catch(function(e){
-            commit('getOrdersMutation', data)
+        return new Promise(function(resolve, reject){
+            // $.ajax({
+            //     method: 'GET',
+            //     dataType: 'text',
+            //     url: config.SERVER_NAME + '/order/all_orders',
+            //     success: function(data){
+            //         resolve(data)
+            //     },
+            //     error: function(e){
+            //         console.log('e----',e);
+            //         reject(e);
+            //     }
+            // })
+            axios.get(config.SERVER_NAME + '/order/all_orders', {
+                params:{
+                    user_id: state.login_info.user_id
+                }
+            }).then(function(data){
+                resolve(data)
+            }).catch(function(e){
+                reject(e);
+            })
         })
+        
     }
 }
 

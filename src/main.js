@@ -6,6 +6,7 @@ import axios from 'axios'
 import VueCookie from 'vue-cookie';
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
+import * as moment from 'moment';
 
 import App from './App'
 import routes from './routes.js';
@@ -28,6 +29,7 @@ axios.interceptors.request.use(function(config){
     console.log('拦截器config: ',config);
     return config
 }, function(e){
+    console.log('拦截器config请求失败: ',e);
     return Promise.reject(e)
 })
 axios.interceptors.response.use(function(response){
@@ -35,12 +37,15 @@ axios.interceptors.response.use(function(response){
     if(response.data.code > 0){
         console.log(2);
         return response.data
-    } else {console.log(3);
+    } else {
+        console.log(3);
         return Promise.reject(response.data)
     }
 }, function(e){
-    console.log('拦截器response返回失败: ',e);
-    return Promise.reject(e)
+    //axios的错误处理方式
+    //axios的e是一个错误报告，必须手动调用里面的方法 e.response, e.request, e.message,e.config
+    console.log('拦截器response返回失败: ',e.response);
+    return Promise.reject(e.response.data)
 })
 
 router.beforeEach((to, from, next) => {
@@ -64,6 +69,11 @@ Vue.filter('parseTwoFloatNumber', function(value){
     } else {
         return '数值错误';
     }
+})
+
+Vue.filter('timePraseDate', function(value){
+    if(!value) return '';
+    return moment(value).format("YYYY-MM-DD HH:mm")
 })
 
 new Vue({

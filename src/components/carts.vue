@@ -74,7 +74,7 @@
             },
             submit(){
                 var _this = this;
-                if(_this.$cookie.get('isLogin')) {
+                if(localStorage.isLogin) {
                     _this.$router.push('/settle');
                 } else {
                     _this.$confirm("请先登录，是否跳转到登录界面？", "提示", {
