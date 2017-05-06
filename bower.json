@@ -1,0 +1,22 @@
+{
+  "name": "vue_book",
+  "description": "A Vue.js project",
+  "main": "",
+  "authors": [
+    "ice201508 <2235907780@qq.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ice201508/vue_book",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "^3.3.7",
+    "font-awesome-sass": "^4.7.0"
+  }
+}

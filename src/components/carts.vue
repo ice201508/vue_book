@@ -82,7 +82,7 @@
                         cancelButtonText: '取消',
                         type: 'warning',
                     }).then(() => {
-                        _this.$router.push('/login');
+                        this.$router.push('/login');
                     }).catch(() => {
                         return;
                     })
